@@ -1,3 +1,6 @@
+extern crate regex;
+
+use regex::Regex;
 use std::collections::hash_map::Entry;
 use std::collections::HashMap;
 use std::collections::HashSet;
@@ -17,56 +20,29 @@ impl FromStr for Claim {
     type Err = Error;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let parts: Vec<&str> =
-            s.trim_matches(|p| p == '#').split('@').collect();
-        if parts.len() < 2 {
-            return Err(Error::new(ErrorKind::InvalidData, "Invalid format"));
-        }
+        let pattern =
+            Regex::new(r"^#(\d+)\s+@\s+(\d+),(\d+):\s+(\d+)x(\d+)").unwrap();
 
-        let id = parts[0]
-            .trim()
-            .parse::<u32>()
-            .map_err(|err| Error::new(ErrorKind::InvalidData, err))?;
+        let groups = pattern
+            .captures(s)
+            .ok_or(Error::new(ErrorKind::InvalidData, "Invalid format"))?;
 
-        let geometry: Vec<&str> = parts[1].split(':').collect();
-        if geometry.len() < 2 {
-            return Err(Error::new(ErrorKind::InvalidData, "Invalid format"));
-        }
-
-        let coords: Vec<&str> = geometry[0].split(',').collect();
-        if coords.len() < 2 {
-            return Err(Error::new(ErrorKind::InvalidData, "Invalid format"));
-        }
-
-        let coord_x = coords[0]
-            .trim()
-            .parse::<u32>()
-            .map_err(|err| Error::new(ErrorKind::InvalidData, err))?;
-        let coord_y = coords[1]
-            .trim()
-            .parse::<u32>()
-            .map_err(|err| Error::new(ErrorKind::InvalidData, err))?;
-
-        let dimension: Vec<&str> = geometry[1].split('x').collect();
-        if dimension.len() < 2 {
-            return Err(Error::new(ErrorKind::InvalidData, "Invalid format"));
-        }
-
-        let width = dimension[0]
-            .trim()
-            .parse::<u32>()
-            .map_err(|err| Error::new(ErrorKind::InvalidData, err))?;
-        let height = dimension[1]
-            .trim()
-            .parse::<u32>()
-            .map_err(|err| Error::new(ErrorKind::InvalidData, err))?;
+        let numbers: Vec<u32> = groups
+            .iter()
+            .skip(1)
+            .map(|val| {
+                val.unwrap()
+                    .as_str()
+                    .parse()
+                    .map_err(|err| Error::new(ErrorKind::InvalidData, err))
+            }).collect::<Result<_, _>>()?;
 
         Ok(Claim {
-            id,
-            coord_x,
-            coord_y,
-            width,
-            height,
+            id: numbers[0],
+            coord_x: numbers[1],
+            coord_y: numbers[2],
+            width: numbers[3],
+            height: numbers[4],
         })
     }
 }
@@ -105,9 +81,5 @@ pub fn part2(claims: &[Claim]) -> u32 {
             }
         }
     });
-    if no_overlap.len() == 1 {
-        *no_overlap.iter().next().unwrap()
-    } else {
-        0
-    }
+    *no_overlap.iter().next().unwrap_or(&0)
 }
