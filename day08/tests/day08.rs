@@ -1,5 +1,3 @@
-extern crate day08;
-
 use day08::{part1, part2, NodeGraph};
 
 fn parse_input(input: &str) -> Vec<u8> {

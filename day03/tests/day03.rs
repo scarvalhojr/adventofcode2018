@@ -1,5 +1,3 @@
-extern crate day03;
-
 use day03::{part1, part2, Claim};
 
 fn parse(input: &[&str]) -> Vec<Claim> {

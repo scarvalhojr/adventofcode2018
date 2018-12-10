@@ -1,5 +1,3 @@
-extern crate day01;
-
 use day01::{part1, part2};
 
 #[test]

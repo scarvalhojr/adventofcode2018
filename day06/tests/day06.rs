@@ -1,5 +1,3 @@
-extern crate day06;
-
 use day06::{part1, part2, Point};
 
 fn parse_input(input: &str) -> Vec<Point> {

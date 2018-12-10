@@ -1,5 +1,3 @@
-extern crate regex;
-
 use regex::Regex;
 use std::collections::hash_map::Entry;
 use std::collections::HashMap;
@@ -35,7 +33,8 @@ impl FromStr for Claim {
                     .as_str()
                     .parse()
                     .map_err(|err| Error::new(ErrorKind::InvalidData, err))
-            }).collect::<Result<_, _>>()?;
+            })
+            .collect::<Result<_, _>>()?;
 
         Ok(Claim {
             id: numbers[0],

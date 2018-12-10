@@ -1,5 +1,3 @@
-extern crate regex;
-
 use regex::Regex;
 use std::collections::HashMap;
 use std::collections::HashSet;
@@ -30,7 +28,8 @@ impl FromStr for Point {
                     .as_str()
                     .parse()
                     .map_err(|err| Error::new(ErrorKind::InvalidData, err))
-            }).collect::<Result<_, _>>()?;
+            })
+            .collect::<Result<_, _>>()?;
 
         Ok(Point {
             x: numbers[0],

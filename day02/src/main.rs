@@ -1,6 +1,3 @@
-extern crate clap;
-extern crate day02;
-
 use clap::{crate_description, App, Arg};
 use day02::{part1, part2};
 use std::fs::File;
@@ -14,7 +11,8 @@ fn main() {
                 .help("Sets the input file to use")
                 .required(true)
                 .index(1),
-        ).get_matches();
+        )
+        .get_matches();
 
     println!(crate_description!());
     let input = read_input(args.value_of("INPUT").unwrap());

@@ -1,5 +1,3 @@
-extern crate day04;
-
 use day04::{part1, part2, process_events, Event};
 
 fn parse_input(input: &str) -> Vec<Event> {

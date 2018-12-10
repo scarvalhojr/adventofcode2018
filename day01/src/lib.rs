@@ -13,7 +13,8 @@ pub fn part2(input: &[i32]) -> i32 {
         .scan(0, |acc, val| {
             *acc += val;
             Some(*acc)
-        }).skip_while(|acc| set.insert(*acc))
+        })
+        .skip_while(|acc| set.insert(*acc))
         .next()
         .unwrap()
 }

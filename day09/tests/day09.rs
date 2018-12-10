@@ -1,5 +1,3 @@
-extern crate day09;
-
 use day09::{part1, MarbleGame};
 
 #[test]

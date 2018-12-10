@@ -1,6 +1,3 @@
-extern crate clap;
-extern crate day09;
-
 use clap::{crate_description, value_t_or_exit, App, Arg};
 use day09::{part1, part2, MarbleGame};
 
@@ -11,12 +8,14 @@ fn main() {
                 .help("Number of players")
                 .required(true)
                 .index(1),
-        ).arg(
+        )
+        .arg(
             Arg::with_name("LAST_MARBLE")
                 .help("Last marble to be played")
                 .required(true)
                 .index(2),
-        ).get_matches();
+        )
+        .get_matches();
 
     println!(crate_description!());
     let num_players = value_t_or_exit!(args.value_of("NUM_PLAYERS"), usize);

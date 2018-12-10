@@ -1,5 +1,3 @@
-extern crate regex;
-
 use regex::Regex;
 use std::collections::HashMap;
 use std::io::{Error, ErrorKind};
@@ -120,7 +118,8 @@ pub fn part2(sleep_counters: &MinuteCounters) -> u32 {
                 .max_by_key(|(_, sleeping_count)| *sleeping_count)
                 .unwrap();
             (*guard_id, sleepiest_minute as u32, sleeping_count)
-        }).max_by_key(|(_, _, sleeping_count)| *sleeping_count)
+        })
+        .max_by_key(|(_, _, sleeping_count)| *sleeping_count)
     {
         None => 0,
         Some((guard_id, sleepiest_minute, _)) => guard_id * sleepiest_minute,

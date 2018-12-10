@@ -1,6 +1,3 @@
-extern crate clap;
-extern crate day04;
-
 use clap::{crate_description, App, Arg};
 use day04::{part1, part2, process_events, Event};
 use std::fs::File;
@@ -14,7 +11,8 @@ fn main() {
                 .help("Sets the input file to use")
                 .required(true)
                 .index(1),
-        ).get_matches();
+        )
+        .get_matches();
 
     println!(crate_description!());
     let events = read_input(args.value_of("INPUT").unwrap());
@@ -51,7 +49,8 @@ fn read_input(filename: &str) -> Vec<Event> {
         .map(|line| {
             line.parse()
                 .map_err(|err| Error::new(ErrorKind::InvalidData, err))
-        }).collect()
+        })
+        .collect()
     {
         Ok(input) => input,
         Err(err) => {
