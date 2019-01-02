@@ -2,6 +2,7 @@ use day13::Mine;
 
 #[test]
 fn example_part1() {
+    #[rustfmt::skip]
     let sample = [
         r"/->-\        ",
         r"|   |  /----\",
@@ -17,6 +18,7 @@ fn example_part1() {
 
 #[test]
 fn example_part2() {
+    #[rustfmt::skip]
     let sample = [
         r"/>-<\  ",
         r"|   |  ",

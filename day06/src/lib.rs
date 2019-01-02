@@ -16,9 +16,9 @@ impl FromStr for Point {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let pattern = Regex::new(r"^(\d+),\s+(\d+)$").unwrap();
 
-        let groups = pattern
-            .captures(s)
-            .ok_or(Error::new(ErrorKind::InvalidData, "Invalid format"))?;
+        let groups = pattern.captures(s).ok_or_else(|| {
+            Error::new(ErrorKind::InvalidData, "Invalid format")
+        })?;
 
         let numbers: Vec<i32> = groups
             .iter()

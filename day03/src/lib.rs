@@ -21,9 +21,9 @@ impl FromStr for Claim {
         let pattern =
             Regex::new(r"^#(\d+)\s+@\s+(\d+),(\d+):\s+(\d+)x(\d+)").unwrap();
 
-        let groups = pattern
-            .captures(s)
-            .ok_or(Error::new(ErrorKind::InvalidData, "Invalid format"))?;
+        let groups = pattern.captures(s).ok_or_else(|| {
+            Error::new(ErrorKind::InvalidData, "Invalid format")
+        })?;
 
         let numbers: Vec<u32> = groups
             .iter()

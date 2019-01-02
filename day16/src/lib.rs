@@ -134,7 +134,7 @@ impl InstrMap {
                         .cloned()
                         .collect();
                 })
-                .or_insert(opcodes.into_iter().collect());
+                .or_insert_with(|| opcodes.into_iter().collect());
         }
 
         while let Some((&byte, opcodes)) =
@@ -233,9 +233,9 @@ impl FromStr for Sample {
         ))
         .unwrap();
 
-        let groups = pattern
-            .captures(s)
-            .ok_or(Error::new(ErrorKind::InvalidData, "Invalid format"))?;
+        let groups = pattern.captures(s).ok_or_else(|| {
+            Error::new(ErrorKind::InvalidData, "Invalid format")
+        })?;
 
         let values: Vec<usize> = groups
             .iter()
@@ -265,9 +265,9 @@ impl FromStr for Code {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let pattern = Regex::new(r"(\d+) (\d+) (\d+) (\d+)").unwrap();
 
-        let groups = pattern
-            .captures(s)
-            .ok_or(Error::new(ErrorKind::InvalidData, "Invalid format"))?;
+        let groups = pattern.captures(s).ok_or_else(|| {
+            Error::new(ErrorKind::InvalidData, "Invalid format")
+        })?;
 
         let bytes: Vec<usize> = groups
             .iter()

@@ -97,11 +97,12 @@ impl FromStr for Program {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let mut lines = s.lines();
-        let first_line = lines.next().ok_or("Empty source".to_string())?;
+        let first_line =
+            lines.next().ok_or_else(|| "Empty source".to_string())?;
         let ip_pattern = Regex::new(r"^#ip (\d+)$").unwrap();
-        let captures = ip_pattern
-            .captures(first_line)
-            .ok_or("Invalid instruction pointer declaration".to_string())?;
+        let captures = ip_pattern.captures(first_line).ok_or_else(|| {
+            "Invalid instruction pointer declaration".to_string()
+        })?;
         let ip_reg = captures
             .iter()
             .nth(1)
@@ -128,7 +129,7 @@ impl FromStr for Instr {
         let pattern = Regex::new(r"(\w+) (\d+) (\d+) (\d+)").unwrap();
         let captures = pattern
             .captures(s)
-            .ok_or("Invalid instruction".to_string())?;
+            .ok_or_else(|| "Invalid instruction".to_string())?;
         let mut tokens = captures.iter().skip(1);
         let opcode = match tokens.next().unwrap().unwrap().as_str() {
             "addr" => Opcode::ADDR,

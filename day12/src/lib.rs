@@ -104,9 +104,9 @@ impl FromStr for Pots {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let pattern = Regex::new(r"^initial state: ([#\.]+)").unwrap();
 
-        let groups = pattern
-            .captures(s)
-            .ok_or(Error::new(ErrorKind::InvalidData, "Invalid format"))?;
+        let groups = pattern.captures(s).ok_or_else(|| {
+            Error::new(ErrorKind::InvalidData, "Invalid format")
+        })?;
 
         let states: VecDeque<_> = [false, false, false]
             .iter()
@@ -139,9 +139,9 @@ impl FromStr for Rule {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let pattern = Regex::new(r"^([#\.]{5}) => ([#\.])").unwrap();
 
-        let groups = pattern
-            .captures(s)
-            .ok_or(Error::new(ErrorKind::InvalidData, "Invalid format"))?;
+        let groups = pattern.captures(s).ok_or_else(|| {
+            Error::new(ErrorKind::InvalidData, "Invalid format")
+        })?;
 
         let pattern = groups
             .get(1)

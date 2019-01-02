@@ -6,6 +6,7 @@ fn parse(input: &[&str]) -> Vec<Claim> {
 
 #[test]
 fn examples_part1() {
+    #[rustfmt::skip]
     let input = [
         "#1 @ 1,3: 4x4",
         "#2 @ 3,1: 4x4",
@@ -39,6 +40,7 @@ fn part1_multiple_overlaps() {
 
 #[test]
 fn examples_part2() {
+    #[rustfmt::skip]
     let input = [
         "#1 @ 1,3: 4x4",
         "#2 @ 3,1: 4x4",

@@ -29,9 +29,9 @@ impl FromStr for Point {
             r"position=<\s*(-?\d+),\s*(-?\d+)> velocity=<\s*(-?\d+),\s*(-?\d+)>"
         ).unwrap();
 
-        let groups = pattern
-            .captures(s)
-            .ok_or(Error::new(ErrorKind::InvalidData, "Invalid format"))?;
+        let groups = pattern.captures(s).ok_or_else(|| {
+            Error::new(ErrorKind::InvalidData, "Invalid format")
+        })?;
 
         let numbers: Vec<i32> = groups
             .iter()

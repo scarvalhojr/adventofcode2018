@@ -21,9 +21,9 @@ impl FromStr for Event {
             Regex::new(r"^\[\d{4}-\d{2}-\d{2} \d{2}:(\d{2})\]\s+(.*)$")
                 .unwrap();
 
-        let parts = event_regex
-            .captures(s)
-            .ok_or(Error::new(ErrorKind::InvalidData, "Invalid format"))?;
+        let parts = event_regex.captures(s).ok_or_else(|| {
+            Error::new(ErrorKind::InvalidData, "Invalid format")
+        })?;
 
         let minute = parts
             .get(1)
@@ -73,7 +73,7 @@ pub fn process_events(events: Vec<Event>) -> MinuteCounters {
                 let sleep_min = sleep_start.unwrap();
                 for item in sleep_counters
                     .entry(guard_id)
-                    .or_insert(vec![0; 60])
+                    .or_insert_with(|| vec![0; 60])
                     .iter_mut()
                     .take(wake_minute)
                     .skip(sleep_min)
