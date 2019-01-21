@@ -101,7 +101,7 @@ impl Sample {
             Opcode::EQRI,
             Opcode::EQRR,
         ]
-        .into_iter()
+        .iter()
         .filter(|&opcode| {
             self.match_instr(&Instr::new(
                 opcode.clone(),

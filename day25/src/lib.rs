@@ -41,7 +41,7 @@ impl<'a> Constellation<'a> {
 pub fn part1(points: &[Point]) -> u32 {
     let mut count = 0;
     let mut pending: Vec<Constellation> =
-        points.into_iter().map(Constellation::new).collect();
+        points.iter().map(Constellation::new).collect();
     while let Some(mut constellation) = pending.pop() {
         let near_idx = pending
             .iter()
